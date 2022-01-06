@@ -51,13 +51,13 @@
                 ctx.fillRect(ax * tp, ay * tp, tp, tp);
 
                 ctx.fillStyle = "snow"; //cor da cobra
+                    
                 for (var i = 0; i < trail.length; i++){
                     ctx.fillRect(trail[i].x * tp, trail[i].y * tp, tp - 1, tp - 1); //pega a posicao do elemento do rastro e pinta
                     
                     //verifica que a cabeca encostou na calda
                     if(trail[i].x == px && trail[i].y == py){
                         vx = vy = 0;
-
                         tail = 5;
                     }    
                 }
@@ -73,7 +73,6 @@
                     ax = Math.floor(Math.random()*qp);
                     ay = Math.floor(Math.random()*qp);
                 }
-
             } 
             
             function keyPush(event){
@@ -102,13 +101,8 @@
                     default:
                         break;
                 }
-
             }
-
-
-
         }
-
 
     </script>
     
