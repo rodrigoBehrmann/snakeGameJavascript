@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Jogo da cobrinha</title>
+</head>
+<body>
+
+    <canvas id="stage" width="600" height="600"></canvas>
+    <script type="text/javascript">
+
+        window.onload = function(){
+
+            var stage = document.getElementById('stage');
+            var ctx = stage.getContext("2d"); //aqui que cria toda a parte grafica do jogo
+            document.addEventListener("keydown", keyPush);
+            setInterval(game, 80);
+
+            const vel = 1;
+
+            var vx = vy = 0; //velocidade em x e em y
+            var px = 10; //posicao inicial em x
+            var py = 15; //posicao inicial em y
+            var tp = 30; //tamanho da peca
+            var qp = 20; //quantidade de pecas
+            var ax = ay = 15;
+
+            var trail = []; //rastro da cobra
+            tail = 5;
+
+            function game(){
+                px += vx;
+                py += vy;
+                //ifs quando a cobrinha encosta na borda do quadrado
+                if(px < 0){
+                    px = qp-1;
+                }
+                if(px > qp-1){
+                    px = 0;
+                }
+                if(py < 0){
+                    py = qp-1;
+                }
+                if(py > qp-1){
+                    py = 0;
+                }           
+
+                ctx.fillStyle = "black"; //cor do fundo
+                ctx.fillRect(0,0,stage.width, stage.height);
+
+                ctx.fillStyle = "LawnGreen"; //cor da comida
+                ctx.fillRect(ax * tp, ay * tp, tp, tp);
+
+                ctx.fillStyle = "snow"; //cor da cobra
+                for (var i = 0; i < trail.length; i++){
+                    ctx.fillRect(trail[i].x * tp, trail[i].y * tp, tp - 1, tp - 1); //pega a posicao do elemento do rastro e pinta
+                    
+                    //verifica que a cabeca encostou na calda
+                    if(trail[i].x == px && trail[i].y == py){
+                        vx = vy = 0;
+
+                        tail = 5;
+                    }    
+                }
+
+                trail.push({x:px, y:py}) //cria um objeto onde o x e y é a posicao atual
+                while(trail.length > tail){
+                    trail.shift();
+                }
+
+                //posiciona a maca para outro lugar do tabuleiro
+                if(ax==px && ay==py){
+                    tail++;
+                    ax = Math.floor(Math.random()*qp);
+                    ay = Math.floor(Math.random()*qp);
+                }
+
+            } 
+            
+            function keyPush(event){
+
+                switch (event.keyCode) {
+                    case 37: //Left
+                        vx = -vel;
+                        vy = 0;                        
+                        break;
+
+                    case 38: //Up
+                        vx = 0;
+                        vy = -vel;                        
+                        break;
+
+                    case 39: //Right
+                        vx = vel;
+                        vy = 0;                        
+                        break;  
+
+                    case 40: //Down
+                        vx = 0;
+                        vy = vel;                        
+                        break;  
+                
+                    default:
+                        break;
+                }
+
+            }
+
+
+
+        }
+
+
+    </script>
+    
+</body>
+</html>
